@@ -84,3 +84,82 @@ To install the module, follow these steps:
     ```bash
     php bin/magento cache:flush
     ```
+
+# Display Block
+Now, we are creating a landing page.
+
+## Steps to Implement
+
+### 1. Create the `Block` Directory
+- Navigate to the following directory in your Magento installation:  
+  `app/code/LandingPage/Form`
+- Create a new folder named `Block`.
+
+### 2. Create the `Index.php` File
+- Within the newly created `Block` directory, create a file named `Index.php`.
+
+### 3. Populate `Index.php` with the Following Code
+```php
+<?php
+namespace LandingPage\Form\Block;
+
+use Magento\Framework\View\Element\Template;
+
+class Index extends Template{
+    /**
+     * Get catalog display text
+     * 
+     * @return string
+     */
+    public function getCatalogDisplayText(){
+        return "Block content on index index page";
+    }
+}
+```
+
+### 4. Set Up the `view` Directory Structure
+
+1. Inside the `app/code/LandingPage/Form` directory, create a new directory named `view`.
+2. Within the `view` directory, create a subdirectory called `frontend`.
+3. Next, create another subdirectory within `frontend` named `templates`.
+4. In the `templates` directory, create a file named `content.phtml`.
+
+Add the following static content to the `content.phtml` file:
+
+```php
+<?php
+<?php $blockContent = $block->getCatalogDisplayText(); ?>
+<h1><?= $blockContent ?></h1>
+```
+
+### 5. Set Up the `Controller` Directory Structure
+
+1. Inside the `app/code/LandingPage/Form` directory, create a new directory named `Controller`.
+2. Within the `Controller` directory, create a subdirectory called `Index`.
+3. Within the `Index` directory, create a file named `Index.php`.
+
+
+Add the following PHP code to the `Index.php` file:
+
+```php
+<?php
+namespace LandingPage\Form\Controller\Index;
+
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
+
+class Index extends Action{
+    protected $_pageFactory;
+
+    public function __construct(Context $context, PageFactory $pageFactory){
+        $this->_pageFactory = $pageFactory;
+        parent::__construct($context);
+    }
+
+    public function execute(){
+        return $this->_pageFactory->create();
+    }
+}
+```
+
