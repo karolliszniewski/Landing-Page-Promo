@@ -163,6 +163,7 @@ class Index extends Action{
 }
 ```
 
+### 6. Set Up the `landingpage_index_index.xml`
 1. Inside the `app/code/LandingPage/Form/view/frontend` directory, create a new directory named `layout`.
 2. Within the `layout` directory, create a file called `landingpage_index_index.xml`.
 
@@ -174,12 +175,28 @@ Add the following PHP code to the `landingpage_index_index.xml` file:
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="LandingPage\CatalogDisplay\Block\Index" name="form_block" template="LadingPage_Form::content.phtml"/>
+            <block class="LandingPage\Form\Block\Index" name="form_block" template="LandingPage_Form::content.phtml"/>
         </referenceContainer>
     </body>
 </page>
 ```
 
+### 7. Set Up the `routes.xml`
+1. Inside the `app/code/LandingPage/Form/etc/` directory, create a new directory named `frontend`.
+2. Within the `layout` directory, create a file called `routes.xml`.
+
+Add the following XML code to the `routes.xml` file:
+```xml
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="landingpage" frontName="landingpage">
+            <module name="LandingPage_Form"/>
+        </route>
+    </router>
+</config>
+
+```
 
 ## Updating Magento
 
