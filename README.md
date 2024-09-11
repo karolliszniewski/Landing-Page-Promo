@@ -219,3 +219,20 @@ php bin/magento c:f
 bin/magento cache:clean
 bin/magento setup:static-content:deploy -f
 ```
+
+## Adding Tailwind CDN to the Default Head Block
+
+### 7. Create the `default_head_blocks.xml` file
+1. Navigate to the following directory within your Magento installation:
+  `app/code/LandingPage/Form/view/frontend/layout/`
+2. Update `default_head_blocks.xml`
+
+```xml
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="https://unpkg.com/alpinejs" src_type="url" defer="true"/>
+        <script src="https://cdn.tailwindcss.com" src_type="url" defer="true"></script>
+    </head>
+</page>
+```
