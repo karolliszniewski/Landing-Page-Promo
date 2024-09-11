@@ -1,2 +1,24 @@
-<?php $blockContent = $block->getCatalogDisplayText(); ?>
-<h1><?= $blockContent ?></h1>
+<!-- app/code/Vendor/Module/view/frontend/templates/landing_form.phtml -->
+
+<div class="form-container" x-data="{ name: '', email: '', comment: '' }">
+    <h2>Landing Page Form</h2>
+
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" x-model="name" placeholder="Enter your name">
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" x-model="email" placeholder="Enter your email">
+    </div>
+
+    <div class="form-group">
+        <label for="comment">Comment:</label>
+        <textarea id="comment" x-model="comment" placeholder="Enter your comment"></textarea>
+    </div>
+
+    <button type="button" @click="console.log({name, email, comment})">
+        Submit
+    </button>
+</div>

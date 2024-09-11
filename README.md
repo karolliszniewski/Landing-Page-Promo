@@ -195,7 +195,6 @@ Add the following XML code to the `routes.xml` file:
         </route>
     </router>
 </config>
-
 ```
 
 ## Updating Magento
@@ -206,4 +205,17 @@ php bin/magento s:d:c
 
 ```bash
 php bin/magento c:f
+```
+
+## Adding Alpine.js CDN to the Default Head Block
+
+### 7. Create the `default_head_blocks.xml` file
+1. Navigate to the following directory within your Magento installation:
+  `app/code/LandingPage/Form/view/frontend/layout/`
+2. Create a new file named `default_head_blocks.xml` in this directory.
+
+### Update Magento
+```bash
+bin/magento cache:clean
+bin/magento setup:static-content:deploy -f
 ```
