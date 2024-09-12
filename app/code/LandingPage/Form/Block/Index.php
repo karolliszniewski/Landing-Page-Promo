@@ -1,15 +1,47 @@
 <?php
 namespace LandingPage\Form\Block;
 
+use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\ObjectManagerInterface;
 
-class Index extends Template{
+class Index extends Template
+{
     /**
-     * Get catalog display text
-     * 
+     * @var CustomerSession
+     */
+    protected $customerSession;
+
+    /**
+     * Constructor.
+     *
+     * @param Template\Context $context
+     * @param ObjectManagerInterface $objectManager
+     * @param array $data
+     */
+    public function __construct(
+        Template\Context $context,
+        ObjectManagerInterface $objectManager,
+        array $data = []
+    ) {
+        $this->customerSession = $objectManager->get(CustomerSession::class);
+        parent::__construct($context, $data);
+    }
+
+    /**
+     * Get the customer's first name.
+     *
      * @return string
      */
-    public function getCatalogDisplayText(){
-        return "Block content on index index page";
+    public function getCustomerName(): string
+    {
+        $customer = $this->customerSession->getCustomer();
+        return $customer->getFirstname() ?: '';
+    }
+
+    public function getCustomerEmail(): string
+    {
+        $customer = $this->customerSession->getCustomer();
+        return $customer->getEmail() ?: '';
     }
 }

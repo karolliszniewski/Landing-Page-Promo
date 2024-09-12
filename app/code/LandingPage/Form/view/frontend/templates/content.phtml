@@ -1,6 +1,16 @@
 <!-- app/code/Vendor/Module/view/frontend/templates/landing_form.phtml -->
 
-<div class="form-container" x-data="{ name: '', email: '', comment: '' }">
+<style>
+        .hover-brighten {
+            background-color: #00B05A;
+            transition: background-color 0.3s ease;
+        }
+        .hover-brighten:hover {
+            background-color: #00D06A; /* Make the color a little brighter */
+        }
+    </style>
+
+<!-- <div class="form-container" x-data="{ name: '', email: '', comment: '' }">
     <h2>Landing Page Form</h2>
 
     <div class="form-group">
@@ -21,4 +31,79 @@
     <button type="button" @click="console.log({name, email, comment})">
         Submit
     </button>
+</div> -->
+
+<?php
+/** @var LandingPage\Form\Block\Index $block */
+?>
+<div class="landing-page-content">
+    <?php if ($customerName = $block->getCustomerName() )
+     {
+        $customerEmail = $block->getCustomerEmail();
+     }
+
+     
+     ?>
+    <!-- Rest of your content here -->
+    </div>
+    <?php if($customerName){
+        ?>
+
+
+<fieldset class="fieldset">
+        <legend class="legend"><span>Contact Information</span></legend><br>
+
+        <input type="hidden" name="error_url" value="">
+        
+            <div class="field required" >
+            <label class="label" for="name">
+              <span>Name</span>
+            </label>
+            <div class="control">
+                <input type="text" id="name" name="name" value="<?=$block->escapeHtml($customerName)?>" title="Name" class="input-text
+                        required-entry" data-validate="{required:true}" aria-required="true" disabled>
+            </div>
+        </div>
+
+    
+    <div class="field required">
+    <label for="email" class="label">
+        <span>
+            Email        </span>
+    </label>
+    <div class="control">
+                    <input type="email" name="email" id="email" value="<?=$block->escapeHtml($customerEmail)?>" title="Company" class="input-text " disabled>
+    </div>
 </div>
+        
+                    
+<div class="field">
+    <label for="telephone" class="label">
+        <span>
+            Comment        </span>
+    </label>
+    <div class="control">
+        <textarea type="tel" name="telephone" id="telephone" value="" class="input-textarea"></textarea>
+    </div>
+</div>
+        
+
+        <div style="margin-bottom:.5rem;">
+        <button type="submit" title="Add to Cart" class="action tocart primary">
+                                                                <span>Add to Cart</span>
+                                                            </button>
+        </div>
+        <div >
+        <button style="background-color: #00B05A;" type="submit" title="Add to Cart" class="action tocart primary hover-brighten:hover">
+                                                                <span>Read More</span>
+                                                            </button>
+        </div>
+
+    </fieldset>
+
+    <?php
+    }else{
+  ?> <h1 style="font-size:5rem;">Sign In to Continue</h1><?php
+    }
+
+    ?>
