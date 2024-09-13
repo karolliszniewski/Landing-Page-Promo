@@ -220,3 +220,149 @@ php bin/magento cache:clean
 php bin/magento setup:static-content:deploy -f
 ```
 
+## Read User Sessions data
+
+We will modify the file `app/code/LandingPage/Form/Block/Index.php`
+
+In this step, I had to use ObjectManagerInterface to retrieve the CustomerSession because other dependency injection methods didn’t work in this case. While using ObjectManager is not recommended in Magento 2 due to its negative impact on performance and testability, this is a temporary workaround until I find a better approach. Normally, ObjectManager should only be used in specific situations such as factories.
+
+```php
+$this->customerSession = $objectManager->get(CustomerSession::class);
+```
+
+We make the $customerSession property protected because it will only be used within this class. Then, we can create methods to fetch customer data, such as the first name and email.
+
+```php
+    public function getCustomerName(): string
+    {
+        $customer = $this->customerSession->getCustomer();
+        return $customer->getFirstname() ?: '';
+    }
+```
+
+the full code looks like this now 
+
+```php
+<?php
+namespace LandingPage\Form\Block;
+
+use Magento\Customer\Model\Session as CustomerSession;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\ObjectManagerInterface;
+
+class Index extends Template
+{
+    /**
+     * @var CustomerSession
+     */
+    protected $customerSession;
+
+    /**
+     * Constructor.
+     *
+     * @param Template\Context $context
+     * @param ObjectManagerInterface $objectManager
+     * @param array $data
+     */
+    public function __construct(
+        Template\Context $context,
+        ObjectManagerInterface $objectManager,
+        array $data = []
+    ) {
+        $this->customerSession = $objectManager->get(CustomerSession::class);
+        parent::__construct($context, $data);
+    }
+
+    /**
+     * Get the customer's first name.
+     *
+     * @return string
+     */
+    public function getCustomerName(): string
+    {
+        $customer = $this->customerSession->getCustomer();
+        return $customer->getFirstname() ?: '';
+    }
+
+    public function getCustomerEmail(): string
+    {
+        $customer = $this->customerSession->getCustomer();
+        return $customer->getEmail() ?: '';
+    }
+}
+```
+
+
+And `app/code/LandingPage/Form/view/frontend/templates/content.phtml`
+
+```phtml 
+<!-- app/code/Vendor/Module/view/frontend/templates/landing_form.phtml -->
+
+<?php
+/** @var LandingPage\Form\Block\Index $block */
+?>
+<div class="landing-page-content">
+    <?php
+    if ($customerName = $block->getCustomerName()) {
+        $customerEmail = $block->getCustomerEmail();
+    }
+    ?>
+
+    <?php if ($customerName) { ?>
+
+        <fieldset class="fieldset">
+            <legend class="legend"><span>Contact Information</span></legend>
+            <br>
+
+            <input type="hidden" name="error_url" value="">
+
+            <div class="field required">
+                <label class="label" for="name">
+                    <span>Name</span>
+                </label>
+                <div class="control">
+                    <input type="text" id="name" name="name" value="<?= $block->escapeHtml($customerName) ?>"
+                        title="Name" class="input-text required-entry" data-validate="{required:true}" aria-required="true" disabled>
+                </div>
+            </div>
+
+            <div class="field required">
+                <label for="email" class="label">
+                    <span>Email</span>
+                </label>
+                <div class="control">
+                    <input type="email" name="email" id="email" value="<?= $block->escapeHtml($customerEmail) ?>"
+                        title="Email" class="input-text" disabled>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="telephone" class="label">
+                    <span>Comment</span>
+                </label>
+                <div class="control">
+                    <textarea type="tel" name="telephone" id="telephone" class="input-textarea"></textarea>
+                </div>
+            </div>
+
+            <div style="margin-bottom:.5rem;">
+                <button type="submit" title="Add to Cart" class="action tocart primary">
+                    <span>Add to Cart</span>
+                </button>
+            </div>
+
+            <div>
+                <button style="background-color: #00B05A;" type="submit" title="Read More" class="action tocart primary">
+                    <span>Read More</span>
+                </button>
+            </div>
+        </fieldset>
+
+    <?php } else { ?>
+
+        <h1 style="font-size:5rem;">Sign In to Continue</h1>
+
+    <?php } ?>
+</div>
+
+```
