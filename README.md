@@ -214,6 +214,16 @@ php bin/magento c:f
   `app/code/LandingPage/Form/view/frontend/layout/`
 2. Create a new file named `default_head_blocks.xml` in this directory.
 
+```xml
+<?xml version="1.0"?> 
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="https://unpkg.com/alpinejs" src_type="url" defer="true"/>
+        <script src="https://cdn.tailwindcss.com" src_type="url" defer="true"></script> 
+    </head>
+</page>
+```
+
 ### Update Magento
 ```bash
 php bin/magento cache:clean
@@ -454,7 +464,7 @@ class Index extends Action
 </config>
 ```
 
-### 2. Define the menu entry
+### 3. Define the menu entry
 1. Inside the `LandingPage/Form/etc/adminhtml/` directory, create a new file named `menu.xml`.
 2. Content of menu.xml:
 
@@ -473,3 +483,20 @@ class Index extends Action
     </menu>
 </config>
 ```
+
+### 3. Define the Admin ACL (Access Control List)
+1. Inside the `LandingPage/Form/etc` directory, create a new file named `acl.xml`.
+2. Content of acl.xml:
+
+```xml
+<?xml version="1.0"?>
+<acl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <resources>
+        <resource id="Magento_Backend::admin">
+            <resource id="LandingPage_Form::landingpage" title="Landing Page Admin" sortOrder="100" />
+        </resource>
+    </resources>
+</acl>
+```
+
