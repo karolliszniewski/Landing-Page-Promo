@@ -528,7 +528,7 @@ class Index extends Action
 
 ### 7. Define the Admin Block file
 1. Inside the `LandingPage/Form/Block/Adminhtml` directory, create a new file named `LandingPage.php`.
-2. Content of landingpage.phtml:
+2. Content of LandingPage.php:
 
 ```php
 <?php
