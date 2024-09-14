@@ -454,3 +454,6 @@ class Index extends Action
 </config>
 ```
 
+### 2. Define the menu entry
+1. Inside the `LandingPage/Form/etc/adminhtml/` directory, create a new file named `menu.xml`.
+2. Content of menu.xml:

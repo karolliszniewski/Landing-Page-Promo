@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/menu.xsd">
+    <menu>
+        <add id="LandingPage_Form::landingpage"
+            title="Landing Page"
+            module="LandingPage_Form"
+            sortOrder="100"
+            parent="Magento_Backend::content"
+            action="landingpage/index/index"
+            resource="LandingPage_Form::landingpage" />
+    </menu>
+</config>
