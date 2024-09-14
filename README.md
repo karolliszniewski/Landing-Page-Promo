@@ -457,3 +457,19 @@ class Index extends Action
 ### 2. Define the menu entry
 1. Inside the `LandingPage/Form/etc/adminhtml/` directory, create a new file named `menu.xml`.
 2. Content of menu.xml:
+
+```xml
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/menu.xsd">
+    <menu>
+        <add id="LandingPage_Form::landingpage"
+            title="Landing Page"
+            module="LandingPage_Form"
+            sortOrder="100"
+            parent="Magento_Backend::content"
+            action="landingpage/index/index"
+            resource="LandingPage_Form::landingpage" />
+    </menu>
+</config>
+```
