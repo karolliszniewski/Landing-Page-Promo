@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<acl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
-    <resources>
-        <resource id="Magento_Backend::admin">
-            <resource id="LandingPage_Form::landingpage" title="Landing Page Admin" sortOrder="100" />
-        </resource>
-    </resources>
-</acl>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="LandingPage_Form::landing_page" title="Landing Page Admin" sortOrder="100" />
+            </resource>
+        </resources>
+    </acl>
+</config>

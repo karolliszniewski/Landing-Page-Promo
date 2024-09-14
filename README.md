@@ -427,24 +427,25 @@ namespace LandingPage\Form\Controller\Adminhtml\Index;
 use Magento\Backend\App\Action;
 use Magento\Framework\View\Result\PageFactory;
 
-class Index extends Action
+class Index extends Action 
 {
     protected $resultPageFactory;
+
 
     public function __construct(
         Action\Context $context,
         PageFactory $resultPageFactory
-    ) {
+    ){
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
     }
 
-    public function execute()
-    {
+    public function execute(){
         $resultPage = $this->resultPageFactory->create();
         $resultPage->getConfig()->getTitle()->prepend(__('Landing Page Admin'));
         return $resultPage;
     }
+
 }
 ```
 
@@ -484,34 +485,72 @@ class Index extends Action
 </config>
 ```
 
-### 3. Define the Admin ACL (Access Control List)
+### 4. Define the Admin ACL (Access Control List)
 1. Inside the `LandingPage/Form/etc` directory, create a new file named `acl.xml`.
 2. Content of acl.xml:
 
 ```xml
 <?xml version="1.0"?>
-<acl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
-    <resources>
-        <resource id="Magento_Backend::admin">
-            <resource id="LandingPage_Form::landingpage" title="Landing Page Admin" sortOrder="100" />
-        </resource>
-    </resources>
-</acl>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="LandingPage_Form::landing_page" title="Landing Page Admin" sortOrder="100" />
+            </resource>
+        </resources>
+    </acl>
+</config>
 ```
 
-### 3. Define the Admin Layout File
+### 5. Define the Admin Layout File
 1. Inside the `LandingPage/Form/view/adminhtml/layout` directory, create a new file named `landingpage_index_index.xml`.
 2. Content of landingpage_index_index.xml:
 
 ```xml
 <?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Backend\Block\Template" template="LandingPage_Form::admin/landingpage.phtml"/>
+            <block class="LandingPage\Form\Block\Adminhtml\LandingPage" name="landingpage_block" template="LandingPage_Form::landingpage.phtml"/>
         </referenceContainer>
     </body>
 </page>
+```
+
+### 6. Define the Admin Template File
+1. Inside the `LandingPage/Form/view/adminhtml/templates` directory, create a new file named `landingpage.phtml`.
+2. Content of landingpage.phtml:
+
+```phtml
+<h1>Welcome to the Landing Page Admin Panel</h1>
+<p>Here you can manage your landing pages.</p>
+```
+
+### 7. Define the Admin Block file
+1. Inside the `LandingPage/Form/Block/Adminhtml` directory, create a new file named `LandingPage.php`.
+2. Content of landingpage.phtml:
+
+```php
+<?php
+namespace LandingPage\Form\Block\Adminhtml;
+
+class LandingPage extends \Magento\Backend\Block\Template
+{
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = []
+    ) {
+        parent::__construct($context, $data);
+    }
+}
+```
+
+### Update Magento
+
+```bash
+php bin/magento cache:clean
+php bin/magento setup:upgrade
+php bin/magento indexer:reindex
+php bin/magento setup:di:compile
+php bin/magento setup:static-content:deploy -f
 ```
