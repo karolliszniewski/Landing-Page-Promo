@@ -500,3 +500,18 @@ class Index extends Action
 </acl>
 ```
 
+### 3. Define the Admin Layout File
+1. Inside the `LandingPage/Form/view/adminhtml/layout` directory, create a new file named `landingpage_index_index.xml`.
+2. Content of landingpage_index_index.xml:
+
+```xml
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Backend\Block\Template" template="LandingPage_Form::admin/landingpage.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
+```
