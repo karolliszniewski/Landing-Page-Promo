@@ -296,7 +296,7 @@ class Index extends Template
 And `app/code/LandingPage/Form/view/frontend/templates/content.phtml`
 
 ```phtml 
-<!-- app/code/Vendor/Module/view/frontend/templates/landing_form.phtml -->
+<!-- app/code/LandingPage/Form/view/frontend/templates/landing_form.phtml -->
 
 <?php
 /** @var LandingPage\Form\Block\Index $block */
@@ -397,7 +397,7 @@ File structure:
 ### Create the Admin Page
 
 
-### 6. Set Up the `Index.php` (controller for admin page)
+### 1. Define an admin controller
 1. Inside the `LandingPage/Form/Controller/Adminhtml/Index` directory, create a new file named `Index.php`.
 2. Within the `Index` directory, create a file called `Index.php`.
 
@@ -437,3 +437,20 @@ class Index extends Action
     }
 }
 ```
+
+### 2. Define an admin route
+1. Inside the `LandingPage/Form/etc/adminhtml/` directory, create a new file named `routes.xml`.
+2. Content of routes.xml:
+
+```xml
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="landingpage" frontName="landingpage">
+            <module name="LandingPage_Form" before="Magento_Backend"/>
+        </route>
+    </router>
+</config>
+```
+
