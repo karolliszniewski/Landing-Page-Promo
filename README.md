@@ -366,3 +366,74 @@ And `app/code/LandingPage/Form/view/frontend/templates/content.phtml`
 </div>
 
 ```
+
+
+File structure:
+```bash
+/var/www/html/app/code
+└── LandingPage
+    └── Form
+        ├── Block
+        │   └── Index.php
+        ├── Controller
+        │   └── Index
+        │       └── Index.php
+        ├── etc
+        │   ├── frontend
+        │   │   └── routes.xml
+        │   ├── layout
+        │   └── module.xml
+        ├── registration.php
+        └── view
+            └── frontend
+                ├── layout
+                │   ├── default_head_blocks.xml
+                │   └── landingpage_index_index.xml
+                └── templates
+                    └── content.phtml
+```
+
+
+### Create the Admin Page
+
+
+### 6. Set Up the `Index.php` (controller for admin page)
+1. Inside the `LandingPage/Form/Controller/Adminhtml/Index` directory, create a new file named `Index.php`.
+2. Within the `Index` directory, create a file called `Index.php`.
+
+```bash
+LandingPage/Form/Controller/Adminhtml
+└── Index
+    └── Index.php
+```
+
+3. Content of Index.php:
+
+```php
+<?php
+
+namespace LandingPage\Form\Controller\Adminhtml\Index;
+
+use Magento\Backend\App\Action;
+use Magento\Framework\View\Result\PageFactory;
+
+class Index extends Action
+{
+    protected $resultPageFactory;
+
+    public function __construct(
+        Action\Context $context,
+        PageFactory $resultPageFactory
+    ) {
+        parent::__construct($context);
+        $this->resultPageFactory = $resultPageFactory;
+    }
+
+    public function execute()
+    {
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->getConfig()->getTitle()->prepend(__('Landing Page Admin'));
+        return $resultPage;
+    }
+}
+```
