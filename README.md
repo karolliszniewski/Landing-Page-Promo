@@ -1,3 +1,10 @@
+useful commands
+```bash
+bin/magento c:c:a
+```
+
+
+
 ### Steps to Set Up the Module
 
 1. **Create the Module Directory Structure:**
