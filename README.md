@@ -190,7 +190,7 @@ Add the following PHP code to the `landingpage_index_index.xml` file:
 
 ### 7. Set Up the `routes.xml`
 1. Inside the `app/code/LandingPage/Form/etc/` directory, create a new directory named `frontend`.
-2. Within the `layout` directory, create a file called `routes.xml`.
+2. Within the `frontend` directory, create a file called `routes.xml`.
 
 Add the following XML code to the `routes.xml` file:
 ```xml
